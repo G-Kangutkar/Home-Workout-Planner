@@ -1,0 +1,38 @@
+-- Fitness goal enum
+create type fitness_goal_enum as enum (
+  'weight_loss',
+  'muscle_gain',
+  'flexibility',
+  'general_fitness'
+);
+
+-- Activity level enum
+create type activity_level_enum as enum (
+  'beginner',
+  'intermediate',
+  'advanced'
+);
+create table profile(
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references users(id) on delete cascade unique,
+  weight int not null,
+  height int not null,
+  fitness_goal fitness_goal_enum default 'general_fitness',
+  activity_level activity_level_enum default 'beginner',
+  workout_duration int not null,
+   created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- Auto-update updated_at on every update
+create or replace function handle_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger set_profile_updated_at
+  before update on profile
+  for each row execute function handle_updated_at();
