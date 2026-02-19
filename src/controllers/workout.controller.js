@@ -70,7 +70,7 @@ export const generatePlan = async (req, res) => {
   // 5. Insert new plan
   const { data: newPlan, error: planErr } = await supabase
     .from("workout_plans")
-    .insert({ user_id: userId, name: plan.name, goal: plan.goal, is_active: true })
+    .insert({ user_id: userId, name: plan.name, goal: plan.goal, is_active: true ,estimated_weekly_calories:plan.estimated_weekly_calories})
     .select()
     .single();
 
@@ -83,6 +83,7 @@ export const generatePlan = async (req, res) => {
     is_rest_day: d.is_rest_day,
     focus: d.focus,
     order_index: d.order_index,
+     estimated_calories :d.estimated_calories
   }));
 
   const { data: insertedDays, error: daysErr } = await supabase
@@ -107,7 +108,7 @@ export const generatePlan = async (req, res) => {
         order_index: ex.order_index,
         sets: ex.sets,
         reps: ex.reps,
-        duration_seconds: ex.duration_seconds,
+        duration_seconds: ex.duration_seconds
       });
     }
   }
@@ -116,6 +117,10 @@ export const generatePlan = async (req, res) => {
     const { error: exInsertErr } = await supabase
       .from("plan_day_exercises")
       .insert(exercisesToInsert);
+
+
+
+
 
     if (exInsertErr) return res.status(500).json({ error: exInsertErr.message });
   }
@@ -128,14 +133,14 @@ export const generatePlan = async (req, res) => {
 // ════════════════════════════════════════════════════════════════════
 export const getActivePlan = async (req, res) => {
   const userId = req.user.id;
-
+// console.log("userid",userId)
   const { data: plan, error: planErr } = await supabase
     .from("workout_plans")
     .select("*")
     .eq("user_id", userId)
     .eq("is_active", true)
-    .single();
-
+    .maybeSingle();
+  // console.log(plan)
   if (planErr || !plan) {
     return res.status(404).json({ error: "No active workout plan found." });
   }
@@ -158,7 +163,7 @@ export const getActivePlan = async (req, res) => {
         id, name, description, instructions,
         muscle_group, difficulty,
         default_sets, default_reps,
-        duration_seconds, tags
+        duration_seconds, tags, video_url,met_value
       )
     `)
     .in("day_id", dayIds)

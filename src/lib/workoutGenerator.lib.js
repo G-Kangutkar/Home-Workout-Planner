@@ -6,6 +6,7 @@
 // ── Day configurations per goal ───────────────────────────────────────────────
 // Each goal has 3 workout days with a specific focus
 // Rest days are filled in automatically for remaining days
+import { calculateDayCalories, calculateExerciseCalories } from "./calculateCalories.lib.js";
 
 const PLAN_CONFIGS = {
   weight_loss: {
@@ -172,6 +173,62 @@ const ALL_DAYS = [
 // @param {Object} profile    - user's profile row
 // @param {Array}  exercises  - all exercises from DB
 // @returns {Object}          - structured plan ready for DB insertion
+
+
+// export function generateWorkoutPlan(profile, exercises) {
+//   const { fitness_goal, activity_level, workout_duration } = profile;
+
+//   const config = PLAN_CONFIGS[fitness_goal] || PLAN_CONFIGS.general_fitness;
+//   const exerciseCount = getExerciseCount(workout_duration);
+//   const usedIds = new Set();
+
+//   // Workout days
+//   const workoutDayNames = config.days.map((d) => d.day);
+
+//   // Build all 7 days
+//   const days = ALL_DAYS.map((day, index) => {
+//     const isRestDay = !workoutDayNames.includes(day);
+
+//     if (isRestDay) {
+//       return {
+//         day,
+//         is_rest_day: true,
+//         focus: "Rest & Recovery",
+//         order_index: index,
+//         exercises: [],
+//       };
+//     }
+
+//     const dayConfig = config.days.find((d) => d.day === day);
+
+//     const picked = pickExercises(
+//       exercises,
+//       dayConfig.muscleGroups,
+//       activity_level,
+//       exerciseCount,
+//       usedIds
+//     );
+
+//     return {
+//       day,
+//       is_rest_day: false,
+//       focus: dayConfig.focus,
+//       order_index: index,
+//       exercises: picked.map((ex, i) => ({
+//         exercise_id: ex.id,
+//         order_index: i,
+//         ...adjustSetsReps(ex, activity_level),
+//       })),
+//     };
+//   });
+
+//   return {
+//     name: config.planName,
+//     goal: fitness_goal,
+//     days,
+//   }; 
+// }
+
 export function generateWorkoutPlan(profile, exercises) {
   const { fitness_goal, activity_level, workout_duration } = profile;
 
