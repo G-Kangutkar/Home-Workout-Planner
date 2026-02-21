@@ -1,13 +1,4 @@
 
-// Rule-based workout plan generator
-// Generates a 3-day/week plan based on user goal + activity level + duration
-// ─────────────────────────────────────────────────────────────────────────────
-
-// ── Day configurations per goal ───────────────────────────────────────────────
-// Each goal has 3 workout days with a specific focus
-// Rest days are filled in automatically for remaining days
-import { calculateDayCalories, calculateExerciseCalories } from "./calculateCalories.lib.js";
-
 const PLAN_CONFIGS = {
   weight_loss: {
     planName: "Fat Burn Plan",
@@ -117,8 +108,7 @@ function getExerciseCount(workoutDuration) {
 // ── Pick exercises for a day ──────────────────────────────────────────────────
 function pickExercises(allExercises, muscleGroups, difficulty, count, usedIds = new Set()) {
   // Filter by muscle groups + difficulty
-  const pool = allExercises.filter(
-    (ex) =>
+  const pool = allExercises.filter((ex) =>
       muscleGroups.includes(ex.muscle_group) &&
       ex.difficulty === difficulty &&
       !usedIds.has(ex.id)
@@ -127,8 +117,7 @@ function pickExercises(allExercises, muscleGroups, difficulty, count, usedIds = 
   // If not enough exercises at exact difficulty, relax to adjacent levels
   let extended = [...pool];
   if (extended.length < count) {
-    const fallback = allExercises.filter(
-      (ex) =>
+    const fallback = allExercises.filter((ex) =>
         muscleGroups.includes(ex.muscle_group) &&
         !usedIds.has(ex.id) &&
         !pool.find((p) => p.id === ex.id)
@@ -169,10 +158,6 @@ const ALL_DAYS = [
   "thursday", "friday", "saturday", "sunday",
 ];
 
-// ── Main generator function ───────────────────────────────────────────────────
-// @param {Object} profile    - user's profile row
-// @param {Array}  exercises  - all exercises from DB
-// @returns {Object}          - structured plan ready for DB insertion
 
 
 // export function generateWorkoutPlan(profile, exercises) {

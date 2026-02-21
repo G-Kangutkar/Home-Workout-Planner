@@ -1,25 +1,12 @@
 
-// ─────────────────────────────────────────────────────────────────
-// Performance tracking - log workouts and retrieve stats
-// ─────────────────────────────────────────────────────────────────
 import supabase  from "../config/supabase.config.js";
 
-/**
- * POST /api/performance/log-workout
- * Log a completed workout session
- */
+//  Log a completed workout session
 export const logWorkout = async (req, res) => {
-  const userId = req.user.id;
-  console.log("user",userId)
-  const { 
-    day_id,           // workout_plan_days id
-    day_name,         // "monday", "tuesday", etc.
-    duration_minutes,
-    exercises,        // array of { exercise_id, sets_completed, reps_completed, duration_seconds }
-    notes 
-  } = req.body;
-
-  try {
+    try {
+    const userId = req.user.id;
+  // console.log("user",userId)
+    const { day_id, day_name,  duration_minutes, exercises, notes } = req.body;
     // Get user weight for calorie calculation
     const { data: profile } = await supabase
       .from("profile")
@@ -27,8 +14,8 @@ export const logWorkout = async (req, res) => {
       .eq("user_id", userId)
       .single();
 
-    const weight = profile?.weight || 70; // default 70kg if not found
-console.log("profile",profile)
+    const weight = profile?.weight || 70; 
+// console.log("profile",profile)
     // Calculate total calories for all exercises
     let totalCalories = 0;
     const exercisesWithCalories = [];
@@ -40,7 +27,7 @@ console.log("profile",profile)
         .select("met_value")
         .eq("id", ex.exercise_id)
         .single();
-console.log("exercise",exercise)
+  // console.log("exercise",exercise)
       const met = exercise?.met_value || 5.0;
       
       // Calculate calories for this exercise
@@ -117,11 +104,9 @@ console.log("exercise",exercise)
   }
 };
 
-/**
- * GET /api/performance/stats
- * Get performance statistics for charts
- * Query params: period (7days, 30days, 90days, all)
- */
+
+  // Get performance statistics for charts
+ 
 export const getStats = async (req, res) => {
   const userId = req.user.id;
   const { period = "30days" } = req.query;
@@ -142,7 +127,8 @@ export const getStats = async (req, res) => {
         startDate = new Date(now.setDate(now.getDate() - 90));
         break;
       default:
-        startDate = new Date("2020-01-01"); // all time
+        startDate = now.getDate()
+        // startDate = new Date("2026-02-25"); // all time
     }
 
     const startDateStr = startDate.toISOString().split('T')[0];
@@ -203,8 +189,8 @@ export const getStats = async (req, res) => {
     });
 
     const muscleGroupData = Object.entries(muscleGroups)
-      .map(([name, count]) => ({ name, count }))
-      .sort((a, b) => b.count - a.count);
+      .map(([name, count]) => ({ name, count })) // converting to obj
+      .sort((a, b) => b.count - a.count); // sorting highest 1st
 
     res.json({
       summary: {
@@ -226,10 +212,7 @@ export const getStats = async (req, res) => {
   }
 };
 
-/**
- * GET /api/performance/history
- * Get workout history with details
- */
+
 export const getHistory = async (req, res) => {
   const userId = req.user.id;
   const { limit = 20, offset = 0 } = req.query;

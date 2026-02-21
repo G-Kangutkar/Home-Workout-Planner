@@ -1,11 +1,8 @@
-// controllers/workout.controller.js
 
 import supabase from "../config/supabase.config.js";
 import { generateWorkoutPlan } from "../lib/workoutGenerator.lib.js";
 
-// ════════════════════════════════════════════════════════════════════
-// GET /api/workout/exercises
-// ════════════════════════════════════════════════════════════════════
+
 export const getExercises = async (req, res) => {
   const { muscle, difficulty, search } = req.query;
 
@@ -31,9 +28,7 @@ export const getExercises = async (req, res) => {
   res.json({ exercises: data, grouped, total: data.length });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// POST /api/workout/generate
-// ════════════════════════════════════════════════════════════════════
+
 export const generatePlan = async (req, res) => {
   const userId = req.user.id;
 
@@ -70,7 +65,9 @@ export const generatePlan = async (req, res) => {
   // 5. Insert new plan
   const { data: newPlan, error: planErr } = await supabase
     .from("workout_plans")
-    .insert({ user_id: userId, name: plan.name, goal: plan.goal, is_active: true ,estimated_weekly_calories:plan.estimated_weekly_calories})
+    .insert({ user_id: userId, name: plan.name, goal: plan.goal, is_active: true ,
+      // estimated_weekly_calories:plan.estimated_weekly_calories
+      })
     .select()
     .single();
 
@@ -83,7 +80,7 @@ export const generatePlan = async (req, res) => {
     is_rest_day: d.is_rest_day,
     focus: d.focus,
     order_index: d.order_index,
-     estimated_calories :d.estimated_calories
+    //  estimated_calories :d.estimated_calories
   }));
 
   const { data: insertedDays, error: daysErr } = await supabase
@@ -128,9 +125,7 @@ export const generatePlan = async (req, res) => {
   res.status(201).json({ message: "Workout plan generated successfully", plan: newPlan });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// GET /api/workout/plan
-// ════════════════════════════════════════════════════════════════════
+
 export const getActivePlan = async (req, res) => {
   const userId = req.user.id;
 // console.log("userid",userId)
@@ -179,9 +174,7 @@ export const getActivePlan = async (req, res) => {
   res.json({ plan: { ...plan, days: daysWithExercises } });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// PUT /api/workout/plan/:id
-// ════════════════════════════════════════════════════════════════════
+
 export const renamePlan = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
@@ -203,9 +196,7 @@ export const renamePlan = async (req, res) => {
   res.json({ plan: data });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// PUT /api/workout/day-exercise/:id  — swap exercise
-// ════════════════════════════════════════════════════════════════════
+
 export const swapExercise = async (req, res) => {
   const { id } = req.params;
   const { exercise_id, sets, reps, duration_seconds, notes } = req.body;
@@ -248,9 +239,7 @@ export const swapExercise = async (req, res) => {
   res.json({ dayExercise: data });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// POST /api/workout/day/:dayId/exercise  — add exercise
-// ════════════════════════════════════════════════════════════════════
+
 export const addExercise = async (req, res) => {
   const { dayId } = req.params;
   const { exercise_id, sets, reps, duration_seconds, notes } = req.body;
@@ -286,9 +275,7 @@ export const addExercise = async (req, res) => {
   res.status(201).json({ dayExercise: data });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// DELETE /api/workout/day-exercise/:id  — remove exercise
-// ════════════════════════════════════════════════════════════════════
+
 export const removeExercise = async (req, res) => {
   const { id } = req.params;
 

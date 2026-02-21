@@ -1,12 +1,7 @@
-// controllers/profile.controller.js
 
 import supabase from "../config/supabase.config.js";
 
 
-// ════════════════════════════════════════════════════════════════════
-// GET /api/profile
-// Returns the logged-in user's fitness profile
-// ════════════════════════════════════════════════════════════════════
 export const getProfile = async (req, res) => {
     
   const userId = req.user.id;
@@ -17,23 +12,18 @@ export const getProfile = async (req, res) => {
     .eq("user_id", userId)
     .single();
 
-  // PGRST116 = no rows found (profile not created yet — not an error)
-  if (error && error.code !== "PGRST116") {
+  if (error ) {
     return res.status(500).json({ error: error.message });
   }
 
   res.json({ profile: data || null });
 };
 
-// ════════════════════════════════════════════════════════════════════
-// POST /api/profile
-// Create or update the logged-in user's fitness profile (upsert)
-// ════════════════════════════════════════════════════════════════════
+
 export const upsertProfile = async (req, res) => {
     try {
-        console.log("✅ upsertProfile hit");
-  console.log("user →", req.user);
-  console.log("body →", req.body);
+  // console.log("user ", req.user);
+  // console.log("body ", req.body);
         const userId = req.user.id;
         const { weight, height, fitness_goal, activity_level, workout_duration } = req.body;
 
@@ -66,8 +56,8 @@ export const upsertProfile = async (req, res) => {
         user_id: userId,
         weight,
         height,
-        fitness_goal:     fitness_goal     || "general_fitness",
-        activity_level:   activity_level   || "beginner",
+        fitness_goal:fitness_goal || "general_fitness",
+        activity_level:activity_level   || "beginner",
         workout_duration,
       },
       { onConflict: "user_id" }
@@ -84,10 +74,7 @@ export const upsertProfile = async (req, res) => {
   
 };
 
-// ════════════════════════════════════════════════════════════════════
-// DELETE /api/profile
-// Delete the logged-in user's fitness profile
-// ════════════════════════════════════════════════════════════════════
+
 export const deleteProfile = async (req, res) => {
   const userId = req.user.id;
 
