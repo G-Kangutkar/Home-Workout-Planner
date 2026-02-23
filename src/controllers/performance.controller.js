@@ -250,40 +250,4 @@ export const getHistory = async (req, res) => {
 
 
 
-// import supabase from "../config/supabase.config.js"
-// import { generateWorkoutPlan } from "../lib/workoutGenerator.lib.js"
-
-// export const getCalories = async (req, res) => {
-//     try {
-//         const userId = req.user.id
-//         console.log(userId)
-//         const { data: profile, error: profileError } = await supabase
-//             .from('profile').select().eq('user_id', req.user.id).maybeSingle()
-
-//         if (profileError) {
-//             return res.status(400).json({ error: profileError.message })
-//         }
-//         const weight = profile.weight;
-
-//         const { data: exercises, error: exErr } = await supabase
-//             .from("exercises")
-//             .select("*");
-
-//         if (exErr) return res.status(500).json({ error: exErr.message });
-
-//         // 3. Generate plan
-//         const plan = generateWorkoutPlan(profile, exercises,weight);
-
-//         res.status(200).json({
-//             daily:plan?.days.map(d=>({
-//                 day:d.day,
-//                 calories:d.estimated_calories
-//             })),
-//             weekly:plan.estimated_weekly_calories
-//         })
-
-//     } catch (error) {
-//         res.status(500).json({ error: error.message })
-//     }
-// }
 
