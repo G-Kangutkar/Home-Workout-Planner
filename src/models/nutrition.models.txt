@@ -1,0 +1,35 @@
+----tables-------------------
+
+create table if not exists nutrition_plans (
+  id          uuid primary key default gen_random_uuid(),
+  goal        text not null unique,   -- 'weight_loss' | 'muscle_gain' | 'maintenance' | 'endurance'
+  label       text not null,
+  icon        text not null,
+  calories    int  not null,
+  description text not null,
+  protein_pct int  not null,          -- macro split %
+  carbs_pct   int  not null,
+  fat_pct     int  not null
+);
+
+create table if not exists nutrition_meals (
+  id          uuid primary key default gen_random_uuid(),
+  plan_goal   text not null references nutrition_plans(goal) on delete cascade,
+  meal_time   text not null,          -- 'Breakfast' | 'Lunch' | 'Snack' | 'Dinner'
+  icon        text not null,
+  name        text not null,
+  calories    int  not null,
+  protein     int  not null,
+  carbs       int  not null,
+  fat         int  not null,
+  prep_time   text not null,
+  ingredients text[] not null,
+  prep_steps  text[] not null,
+  tags        text[] not null
+);
+
+create table if not exists nutrition_prep_tips (
+  id        uuid primary key default gen_random_uuid(),
+  plan_goal text not null references nutrition_plans(goal) on delete cascade,
+  tip       text not null
+);

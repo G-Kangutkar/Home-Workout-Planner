@@ -20,11 +20,12 @@ create table profile(
   fitness_goal fitness_goal_enum default 'general_fitness',
   activity_level activity_level_enum default 'beginner',
   workout_duration int not null,
-   created_at timestamptz default now(),
+  fcm_token text,
+  created_at timestamptz default now(),
   updated_at timestamptz default now()
 );
 
--- Auto-update updated_at on every update
+
 create or replace function handle_updated_at()
 returns trigger as $$
 begin

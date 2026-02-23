@@ -1,0 +1,105 @@
+
+-- ── Enums ────────────────────────────────────────────────────────────────────
+
+create type muscle_group_enum as enum (
+  'chest',
+  'back',
+  'shoulders',
+  'arms',
+  'core',
+  'legs',
+  'glutes',
+  'full_body',
+  'cardio'
+);
+
+create type difficulty_enum as enum (
+  'beginner',
+  'intermediate',
+  'advanced'
+);
+
+create type day_of_week_enum as enum (
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+  'sunday'
+);
+
+-- ── Table: exercises (master library, seeded) ─────────────────────────────────
+
+create table exercises (
+  id               uuid primary key default gen_random_uuid(),
+  name             text not null,
+  description      text,
+  instructions     text,                     -- step-by-step how to perform
+  muscle_group     muscle_group_enum not null,
+  difficulty       difficulty_enum not null,
+  default_sets     int default 3,
+  default_reps     text default '10',         -- e.g. "10", "10-12", "30 sec"
+  duration_seconds int,                       -- for timed exercises (planks etc.)
+  is_equipment     boolean default false,     -- all false for home workouts
+  tags             text[],                    -- e.g. ['hiit', 'stretch', 'warmup']
+  created_at       timestamptz default now()
+);
+
+-- ── Table: workout_plans ──────────────────────────────────────────────────────
+
+create table workout_plans (
+  id          uuid primary key default gen_random_uuid(),
+  user_id     uuid references users(id) on delete cascade not null,
+  name        text not null default 'My Workout Plan',
+  goal        fitness_goal_enum not null,
+  is_active   boolean default true,
+  estimated_weekly_calories int default 0,
+  created_at  timestamptz default now(),
+  updated_at  timestamptz default now()
+);
+
+
+-- ── Table: workout_plan_days ──────────────────────────────────────────────────
+
+create table workout_plan_days (
+  id          uuid primary key default gen_random_uuid(),
+  plan_id     uuid references workout_plans(id) on delete cascade not null,
+  day         day_of_week_enum not null,
+  is_rest_day boolean default false,
+  focus       text,                          -- e.g. "Upper Body", "Core & Cardio"
+  order_index int default 0,
+  estimated_calories int default 0,
+  created_at  timestamptz default now(),
+  unique(plan_id, day)
+);
+
+-- ── Table: plan_day_exercises ─────────────────────────────────────────────────
+
+create table plan_day_exercises (
+  id               uuid primary key default gen_random_uuid(),
+  day_id           uuid references workout_plan_days(id) on delete cascade not null,
+  exercise_id      uuid references exercises(id) on delete cascade not null,
+  order_index      int default 0,
+  sets             int,                      -- overrides exercise default
+  reps             text,                     -- overrides exercise default
+  duration_seconds int,                      -- overrides exercise default
+  notes            text,
+  created_at       timestamptz default now()
+);
+
+
+-- ── updated_at trigger for workout_plans ──────────────────────────────────────
+
+create or replace function handle_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+
+create trigger set_workout_plans_updated_at
+  before update on workout_plans
+  for each row execute function handle_updated_at();
+

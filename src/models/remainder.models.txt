@@ -1,0 +1,9 @@
+create table reminders(
+ id uuid primary key default gen_random_uuid(),
+ user_id uuid references users(id),
+ remind_time time,       -- store just the time e.g. "07:30:00"
+ is_active boolean default true,
+ sent_today boolean default false,
+ last_sent date
+)
+

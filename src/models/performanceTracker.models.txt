@@ -1,0 +1,60 @@
+-- ═══════════════════════════════════════════════════════════════════
+-- Performance Tracking Schema
+-- Tracks completed workouts, exercises, and calories burned
+-- ═══════════════════════════════════════════════════════════════════
+
+-- Table: workout_sessions
+-- One row per completed workout day
+
+
+-- Table: completed_exercises
+-- Individual exercises completed in a session
+
+
+create table workout_sessions (
+  id               uuid primary key default gen_random_uuid(),
+  user_id          uuid references users(id) on delete cascade not null,  
+  plan_id          uuid references workout_plans(id) on delete set null,
+  day_id           uuid references workout_plan_days(id) on delete set null,
+  day_name         text not null,
+  workout_date     date not null default current_date,
+  duration_minutes int,
+  total_calories   int default 0,
+  notes            text,
+  created_at       timestamptz default now()
+);
+
+create table completed_exercises (
+  id               uuid primary key default gen_random_uuid(),
+  session_id       uuid references workout_sessions(id) on delete cascade not null,
+  exercise_id      uuid references exercises(id) on delete cascade not null,
+  sets_completed   int not null,
+  reps_completed   text,
+  duration_seconds int,
+  calories_burned  int default 0,
+  notes            text,
+  created_at       timestamptz default now()
+);
+
+create index idx_workout_sessions_user_date 
+  on workout_sessions(user_id, workout_date desc);
+
+create index idx_completed_exercises_session 
+  on completed_exercises(session_id);
+
+-- Indexes for performance
+create index if not exists idx_workout_sessions_user_date 
+  on workout_sessions(user_id, workout_date desc);
+
+create index if not exists idx_workout_sessions_user_created 
+  on workout_sessions(user_id, created_at desc);
+
+create index if not exists idx_completed_exercises_session 
+  on completed_exercises(session_id);
+
+-- Comments
+comment on table workout_sessions is 
+  'Tracks each completed workout session with date, duration, and calories';
+
+comment on table completed_exercises is 
+  'Individual exercises completed within a workout session';

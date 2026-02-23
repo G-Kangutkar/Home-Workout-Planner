@@ -1,0 +1,481 @@
+  -- ═══════════════════════════════════════════════════════════════════
+--  Exercise Library Seed Data
+-- All bodyweight exercises — no equipment needed
+-- ═══════════════════════════════════════════════════════════════════
+insert into exercises
+  (name, description, instructions, muscle_group, difficulty, default_sets, default_reps, duration_seconds, is_equipment, tags)
+values
+
+-- ═══════════════════════════════════════
+-- CHEST
+-- ═══════════════════════════════════════
+-- ═══════════════════════════════════════════════════════════════════
+-- FitForge — Exercise Library Seed Data
+-- All bodyweight exercises — no equipment needed
+-- video_url added for every exercise
+-- ═══════════════════════════════════════════════════════════════════
+alter table exercises
+add column met_value numeric;
+insert into exercises
+  (name, description, instructions, muscle_group, difficulty, default_sets, default_reps, duration_seconds, is_equipment, tags, video_url,met_value)
+values
+
+-- ═══════════════════════════════════════
+-- CHEST
+-- ═══════════════════════════════════════
+(
+  'Push-Up',
+  'Classic upper body push exercise targeting chest, shoulders and triceps.',
+  'Start in high plank. Lower chest to floor keeping elbows at 45°. Push back up.',
+  'chest', 'beginner', 3, '10-15', null, false,
+  ARRAY['push', 'upper-body', 'classic'],
+  'https://www.youtube.com/watch?v=IODxDxX7oi4',8.0
+),
+(
+  'Wide Push-Up',
+  'Wider hand placement shifts focus more onto the chest.',
+  'Place hands wider than shoulder-width. Lower slowly, squeeze chest at bottom.',
+  'chest', 'beginner', 3, '10-12', null, false,
+  ARRAY['push', 'upper-body', 'chest-focused'],
+  'https://www.youtube.com/watch?v=0pkjOk0EiAk',8.0
+),
+(
+  'Diamond Push-Up',
+  'Hands close together to target inner chest and triceps.',
+  'Form a diamond shape with thumbs and index fingers. Perform a push-up.',
+  'chest', 'intermediate', 3, '8-12', null, false,
+  ARRAY['push', 'triceps', 'chest'],
+  'https://www.youtube.com/watch?v=J0DXzt8KpcE',8.5
+),
+(
+  'Decline Push-Up',
+  'Feet elevated to hit the upper chest and shoulders.',
+  'Place feet on a chair or step. Perform push-up at a downward angle.',
+  'chest', 'intermediate', 3, '8-12', null, false,
+  ARRAY['push', 'upper-chest', 'elevated'],
+  'https://www.youtube.com/watch?v=SKPab2YC8BE',8.5
+),
+(
+  'Archer Push-Up',
+  'Unilateral push-up variation for chest and shoulder strength.',
+  'Extend one arm out to the side. Shift weight to the bent arm and push.',
+  'chest', 'advanced', 3, '6-10', null, false,
+  ARRAY['push', 'unilateral', 'advanced'],
+  'https://www.youtube.com/watch?v=PdVPZnnO_OM',8.5
+),
+
+-- ═══════════════════════════════════════
+-- BACK
+-- ═══════════════════════════════════════
+(
+  'Superman Hold',
+  'Lying back extension to strengthen the entire posterior chain.',
+  'Lie face down. Lift arms and legs simultaneously. Hold at top for 2 seconds.',
+  'back', 'beginner', 3, '10-12', null, false,
+  ARRAY['back-extension', 'posterior-chain'],
+  'https://www.youtube.com/watch?v=z6PJMT2y8GQ',6.0
+),
+(
+  'Reverse Snow Angel',
+  'Lying prone arm sweep targeting rear delts and upper back.',
+  'Lie face down with arms at sides. Sweep arms overhead like a snow angel.',
+  'back', 'beginner', 3, '12', null, false,
+  ARRAY['rear-delts', 'upper-back', 'mobility'],
+  'https://www.youtube.com/watch?v=Yv1eoMmCGK0',3.0
+),
+(
+  'Bird Dog',
+  'Opposite arm and leg extension for back stability and core.',
+  'Start on all fours. Extend opposite arm and leg. Hold 2s. Switch sides.',
+  'back', 'beginner', 3, '10 each side', null, false,
+  ARRAY['stability', 'balance', 'core'],
+  'https://www.youtube.com/watch?v=wiFNA3sqjCA',3.5
+),
+(
+  'Prone Y-T-W Raise',
+  'Three-position raise targeting scapular muscles and upper back.',
+  'Lie face down. Raise arms into Y, then T, then W position. Hold each 2s.',
+  'back', 'intermediate', 3, '10', null, false,
+  ARRAY['scapular', 'posture', 'upper-back'],
+  'https://www.youtube.com/watch?v=VXkHK8FGsKE',5.5
+),
+(
+  'Inverted Row (Table)',
+  'Horizontal pull using a sturdy table for back and biceps.',
+  'Lie under table. Grip edge. Pull chest up to table keeping body straight.',
+  'back', 'intermediate', 3, '8-12', null, false,
+  ARRAY['pull', 'horizontal', 'biceps'],
+  'https://www.youtube.com/watch?v=NmPSCHbSeXg',8.0
+),
+
+-- ═══════════════════════════════════════
+-- SHOULDERS
+-- ═══════════════════════════════════════
+(
+  'Pike Push-Up',
+  'Targets shoulders and upper chest with a downward-dog push position.',
+  'Form an inverted V. Bend elbows to lower head toward floor. Push back up.',
+  'shoulders', 'beginner', 3, '10-12', null, false,
+  ARRAY['push', 'overhead', 'upper-body'],
+  'https://www.youtube.com/watch?v=x7_I5SUAd00',8.0
+),
+(
+  'Wall Handstand Hold',
+  'Builds shoulder endurance and stability against a wall.',
+  'Kick up to handstand facing wall. Keep core tight. Hold position.',
+  'shoulders', 'advanced', 3, '20-30 sec', 30, false,
+  ARRAY['handstand', 'balance', 'strength'],
+  'https://www.youtube.com/watch?v=d4YVn4nQMoU',9.0
+),
+(
+  'Lateral Raise (No Weight)',
+  'Slow controlled lateral raise using body tension for shoulder isolation.',
+  'Stand tall. Raise arms out to sides slowly to shoulder height. Lower with control.',
+  'shoulders', 'beginner', 3, '15-20', null, false,
+  ARRAY['isolation', 'lateral', 'endurance'],
+  'https://www.youtube.com/watch?v=3VcKaXpzqRo',3.5
+),
+(
+  'Handstand Push-Up',
+  'Advanced vertical push targeting all shoulder heads.',
+  'Kick to handstand against wall. Bend elbows to lower head. Press back up.',
+  'shoulders', 'advanced', 3, '5-8', null, false,
+  ARRAY['push', 'advanced', 'handstand'],
+  'https://www.youtube.com/watch?v=tQhrk6WMcKw',9.0
+),
+
+-- ═══════════════════════════════════════
+-- ARMS
+-- ═══════════════════════════════════════
+(
+  'Tricep Dip (Chair)',
+  'Classic tricep dip using a chair or low surface.',
+  'Hands on chair edge behind you. Lower body by bending elbows to 90°. Push up.',
+  'arms', 'beginner', 3, '12-15', null, false,
+  ARRAY['triceps', 'dip', 'push'],
+  'https://www.youtube.com/watch?v=6kALZikXxLc',8.0
+),
+(
+  'Close-Grip Push-Up',
+  'Narrow push-up variation emphasizing the triceps.',
+  'Hands directly under shoulders or slightly closer. Lower and press up.',
+  'arms', 'beginner', 3, '10-15', null, false,
+  ARRAY['triceps', 'push', 'upper-body'],
+  'https://www.youtube.com/watch?v=T5_neN_MkSk',8.0
+),
+(
+  'Chin-Up (Doorframe)',
+  'Supinated grip pull targeting biceps and upper back.',
+  'Grip doorframe or bar with palms facing you. Pull chin above hands.',
+  'arms', 'intermediate', 3, '6-10', null, false,
+  ARRAY['pull', 'biceps', 'back'],
+  'https://www.youtube.com/watch?v=brhRXlOhsAM',8.0
+),
+(
+  'Tricep Extension (Floor)',
+  'Lying tricep press using bodyweight on the floor.',
+  'Lie on back. Hands near temples. Press by extending elbows fully.',
+  'arms', 'intermediate', 3, '10-12', null, false,
+  ARRAY['triceps', 'isolation', 'floor'],
+  'https://www.youtube.com/watch?v=YbX7Wd8jQ-Q',6.0
+),
+
+-- ═══════════════════════════════════════
+-- CORE
+-- ═══════════════════════════════════════
+(
+  'Plank',
+  'Foundational isometric core exercise.',
+  'Forearms on floor, elbows under shoulders. Keep body in straight line. Hold.',
+  'core', 'beginner', 3, '30-60 sec', 45, false,
+  ARRAY['isometric', 'stability', 'classic'],
+  'https://www.youtube.com/watch?v=ASdvN_XEl_c',3.3
+),
+(
+  'Crunches',
+  'Basic abdominal contraction exercise.',
+  'Lie on back, knees bent. Hands behind head. Curl shoulders off floor. Lower.',
+  'core', 'beginner', 3, '15-20', null, false,
+  ARRAY['abs', 'crunch', 'classic'],
+  'https://www.youtube.com/watch?v=Xyd_fa5zoEU',5.0
+),
+(
+  'Bicycle Crunch',
+  'Rotational crunch targeting obliques and all abdominal layers.',
+  'Lie on back. Alternate elbow-to-opposite-knee in cycling motion.',
+  'core', 'beginner', 3, '20 each side', null, false,
+  ARRAY['obliques', 'rotation', 'abs'],
+  'https://www.youtube.com/watch?v=9FGilxCbdz8',8.0
+),
+(
+  'Leg Raise',
+  'Lower ab focus by raising straight legs from the floor.',
+  'Lie flat. Keep legs straight. Raise to 90°, lower slowly without touching floor.',
+  'core', 'intermediate', 3, '12-15', null, false,
+  ARRAY['lower-abs', 'hip-flexors', 'control'],
+  'https://www.youtube.com/watch?v=JB2oyawG9KI',5.0
+),
+(
+  'Mountain Climber',
+  'Dynamic core exercise combining plank with cardio.',
+  'Start in high plank. Drive alternating knees toward chest rapidly.',
+  'core', 'intermediate', 3, '30 sec', 30, false,
+  ARRAY['dynamic', 'cardio', 'plank'],
+  'https://www.youtube.com/watch?v=nmwgirgXLYM',8.0
+),
+(
+  'Russian Twist',
+  'Rotational core exercise targeting obliques.',
+  'Sit with knees bent, lean back slightly. Rotate torso side to side.',
+  'core', 'intermediate', 3, '20 each side', null, false,
+  ARRAY['obliques', 'rotation', 'seated'],
+  'https://www.youtube.com/watch?v=wkD8rjkodUI',5.0
+),
+(
+  'Dead Bug',
+  'Anti-extension core stability exercise.',
+  'Lie on back. Arms up, knees at 90°. Lower opposite arm/leg. Return. Switch.',
+  'core', 'intermediate', 3, '10 each side', null, false,
+  ARRAY['stability', 'anti-extension', 'control'],
+  'https://www.youtube.com/watch?v=g_BYB0R-4Ws',3.5
+),
+(
+  'Side Plank',
+  'Lateral core stability targeting obliques.',
+  'Lie on side. Prop on forearm. Lift hips forming straight line. Hold.',
+  'core', 'intermediate', 3, '30 sec each side', 30, false,
+  ARRAY['obliques', 'lateral', 'isometric'],
+  'https://www.youtube.com/watch?v=K2VljzCC16g',3.3
+),
+(
+  'V-Up',
+  'Advanced full abdominal crunch with legs and torso rising together.',
+  'Lie flat. Simultaneously raise legs and torso to form a V. Lower slowly.',
+  'core', 'advanced', 3, '10-15', null, false,
+  ARRAY['abs', 'advanced', 'full-body'],
+  'https://www.youtube.com/watch?v=7UVgs18Y1P4',8.0
+),
+(
+  'Dragon Flag',
+  'Elite core exercise popularized by Bruce Lee.',
+  'Lie on bench/floor. Grip behind head. Raise body keeping straight line. Lower.',
+  'core', 'advanced', 3, '5-8', null, false,
+  ARRAY['advanced', 'abs', 'control'],
+  'https://www.youtube.com/watch?v=IFtBwIZF-8s',9.0
+),
+
+-- ═══════════════════════════════════════
+-- LEGS
+-- ═══════════════════════════════════════
+(
+  'Bodyweight Squat',
+  'Fundamental lower body movement targeting quads, hamstrings and glutes.',
+  'Feet shoulder-width apart. Lower until thighs parallel to floor. Drive back up.',
+  'legs', 'beginner', 3, '15-20', null, false,
+  ARRAY['squat', 'lower-body', 'classic'],
+  'https://www.youtube.com/watch?v=aclHkVaku9U',5.0
+),
+(
+  'Lunge',
+  'Unilateral leg exercise for quad and glute strength.',
+  'Step forward. Lower back knee toward floor. Push off front foot to return.',
+  'legs', 'beginner', 3, '10-12 each leg', null, false,
+  ARRAY['lunge', 'unilateral', 'balance'],
+  'https://www.youtube.com/watch?v=QOVaHwm-Q6U',6.0
+),
+(
+  'Reverse Lunge',
+  'Step back variation reducing knee strain vs forward lunge.',
+  'Step backward. Lower front knee to 90°. Drive front foot to return.',
+  'legs', 'beginner', 3, '10-12 each leg', null, false,
+  ARRAY['lunge', 'unilateral', 'knee-friendly'],
+  'https://www.youtube.com/watch?v=xrjMX7nxMjs',6.0
+),
+(
+  'Wall Sit',
+  'Isometric quad endurance exercise.',
+  'Back flat against wall. Lower to 90° knee angle. Hold position.',
+  'legs', 'beginner', 3, '30-60 sec', 45, false,
+  ARRAY['isometric', 'quads', 'endurance'],
+  'https://www.youtube.com/watch?v=-cdph8hv0O0',4.0
+),
+(
+  'Jump Squat',
+  'Plyometric squat variation for explosive power and cardio.',
+  'Squat down then explode upward. Land softly and immediately go into next rep.',
+  'legs', 'intermediate', 3, '10-15', null, false,
+  ARRAY['plyometric', 'explosive', 'cardio'],
+  'https://www.youtube.com/watch?v=CVaEhXotL7M',8.5
+),
+(
+  'Bulgarian Split Squat',
+  'Rear-foot elevated split squat for deep quad and glute work.',
+  'Rear foot on chair. Lower front knee to floor. Drive through front heel.',
+  'legs', 'intermediate', 3, '8-10 each leg', null, false,
+  ARRAY['split-squat', 'unilateral', 'quad'],
+  'https://www.youtube.com/watch?v=2C-uNgKwPLE',8.0
+),
+(
+  'Step-Up',
+  'Step onto a chair or step targeting quads and glutes.',
+  'Step onto surface with one foot. Drive through heel to stand. Step back down.',
+  'legs', 'intermediate', 3, '12 each leg', null, false,
+  ARRAY['step', 'functional', 'unilateral'],
+  'https://www.youtube.com/watch?v=dQqApCGd5Ss',6.5
+),
+(
+  'Pistol Squat',
+  'Single-leg squat requiring strength and balance.',
+  'Stand on one leg. Extend other leg forward. Lower slowly on one leg. Rise.',
+  'legs', 'advanced', 3, '5-8 each leg', null, false,
+  ARRAY['advanced', 'unilateral', 'balance'],
+  'https://www.youtube.com/watch?v=vq5-vdgJc0I',9.0
+),
+
+-- ═══════════════════════════════════════
+-- GLUTES
+-- ═══════════════════════════════════════
+(
+  'Glute Bridge',
+  'Hip thrust variation on the floor targeting glutes and hamstrings.',
+  'Lie on back, knees bent. Drive hips upward squeezing glutes. Hold 1s at top.',
+  'glutes', 'beginner', 3, '15-20', null, false,
+  ARRAY['glutes', 'hamstrings', 'hip-extension'],
+  'https://www.youtube.com/watch?v=8bbE64NuDTU',5.0
+),
+(
+  'Single-Leg Glute Bridge',
+  'Unilateral glute bridge for increased activation.',
+  'Perform glute bridge with one leg extended. Keep hips level throughout.',
+  'glutes', 'intermediate', 3, '12 each leg', null, false,
+  ARRAY['glutes', 'unilateral', 'hip-extension'],
+  'https://www.youtube.com/watch?v=IVFAMoN0mLw',6.0
+),
+(
+  'Donkey Kick',
+  'All-fours kick back targeting the glute max.',
+  'Start on all fours. Kick one heel toward ceiling. Squeeze at top. Lower.',
+  'glutes', 'beginner', 3, '15 each leg', null, false,
+  ARRAY['isolation', 'glutes', 'floor'],
+  'https://www.youtube.com/watch?v=SJ1Xuz9D-ZQ',5.0
+),
+(
+  'Fire Hydrant',
+  'All-fours lateral leg raise for glute med activation.',
+  'On all fours. Lift knee out to side (like a dog). Return. Keep core tight.',
+  'glutes', 'beginner', 3, '15 each leg', null, false,
+  ARRAY['glute-med', 'lateral', 'floor'],
+  'https://www.youtube.com/watch?v=La041RNmxGo',5.0
+),
+(
+  'Hip Thrust',
+  'Floor-based hip thrust for maximum glute activation.',
+  'Shoulders on floor, feet flat. Drive hips up explosively. Lower with control.',
+  'glutes', 'intermediate', 3, '15-20', null, false,
+  ARRAY['glutes', 'hip-extension', 'power'],
+  'https://www.youtube.com/watch?v=xDmFkJxPzeM',6.0
+),
+(
+  'Sumo Squat',
+  'Wide stance squat targeting inner thighs and glutes.',
+  'Wide stance, toes out 45°. Lower keeping chest up and knees tracking toes.',
+  'glutes', 'beginner', 3, '15', null, false,
+  ARRAY['squat', 'inner-thigh', 'glutes'],
+  'https://www.youtube.com/watch?v=qxuCEKvMJgA',5.0
+),
+
+-- ═══════════════════════════════════════
+-- FULL BODY
+-- ═══════════════════════════════════════
+(
+  'Burpee',
+  'Full-body explosive exercise combining squat, plank and jump.',
+  'Squat down, jump feet back to plank, do a push-up, jump feet in, jump up.',
+  'full_body', 'intermediate', 3, '10', null, false,
+  ARRAY['hiit', 'explosive', 'cardio'],
+  'https://www.youtube.com/watch?v=dZgVxmf6jkA',10.0
+),
+(
+  'Bear Crawl',
+  'Quadrupedal movement for full-body coordination and core.',
+  'On hands and toes, knees 2in off floor. Crawl forward with opposite limbs.',
+  'full_body', 'intermediate', 3, '30 sec', 30, false,
+  ARRAY['crawl', 'coordination', 'core'],
+  'https://www.youtube.com/watch?v=IQEP7_PtSX0',8.0
+),
+(
+  'Inchworm',
+  'Full-body mobility and strength exercise.',
+  'Stand tall. Bend and walk hands out to plank. Walk feet to hands. Repeat.',
+  'full_body', 'beginner', 3, '8-10', null, false,
+  ARRAY['mobility', 'warmup', 'flexibility'],
+  'https://www.youtube.com/watch?v=X6nFBCkMKs4',6.0
+),
+(
+  'Jumping Jacks',
+  'Classic cardio and coordination exercise.',
+  'Stand tall. Jump while spreading legs and raising arms overhead. Return.',
+  'full_body', 'beginner', 3, '30', null, false,
+  ARRAY['cardio', 'warmup', 'classic'],
+  'https://www.youtube.com/watch?v=c4DAnQ6DtF8',8.0
+),
+(
+  'Plank to Push-Up',
+  'Transition from forearm plank to high plank building arm and core strength.',
+  'From forearm plank, push up one arm at a time to high plank. Return.',
+  'full_body', 'intermediate', 3, '8-10 each side', null, false,
+  ARRAY['core', 'arms', 'transition'],
+  'https://www.youtube.com/watch?v=EHD4GM8OsIk',8.0
+),
+
+-- ═══════════════════════════════════════
+-- CARDIO
+-- ═══════════════════════════════════════
+(
+  'High Knees',
+  'Running in place with exaggerated knee drive for cardio.',
+  'Run in place driving knees up to hip height. Pump arms. Keep pace high.',
+  'cardio', 'beginner', 3, '30 sec', 30, false,
+  ARRAY['hiit', 'cardio', 'warmup'],
+  'https://www.youtube.com/watch?v=oDdkytliOqE',8.0
+),
+(
+  'Butt Kicks',
+  'Running in place kicking heels to glutes for cardio and hamstrings.',
+  'Run in place kicking heels up toward glutes. Keep torso upright.',
+  'cardio', 'beginner', 3, '30 sec', 30, false,
+  ARRAY['cardio', 'hamstrings', 'warmup'],
+  'https://www.youtube.com/watch?v=JlIBCOcnbGk',7.0
+),
+(
+  'Box Step',
+  'Low impact cardio step pattern for sustained heart rate.',
+  'Step right-left-right-tap, then left-right-left-tap in a box pattern.',
+  'cardio', 'beginner', 3, '60 sec', 60, false,
+  ARRAY['low-impact', 'cardio', 'coordination'],
+  'https://www.youtube.com/watch?v=Iy-DouaRkEo',5.5
+),
+(
+  'Skater Jump',
+  'Lateral plyometric jump mimicking speed skating for cardio and glutes.',
+  'Jump sideways landing on one foot. Immediately jump to other side. Repeat.',
+  'cardio', 'intermediate', 3, '20', null, false,
+  ARRAY['plyometric', 'lateral', 'cardio'],
+  'https://www.youtube.com/watch?v=NMNTMGIm-WI',8.0
+),
+(
+  'Speed Skater',
+  'Dynamic lateral movement for cardio and coordination.',
+  'Leap side to side landing softly on one foot. Reach opposite hand to foot.',
+  'cardio', 'intermediate', 3, '30 sec', 30, false,
+  ARRAY['cardio', 'lateral', 'balance'],
+  'https://www.youtube.com/watch?v=ACAZwDqGX3s',7.5
+),
+(
+  'Shadow Boxing',
+  'Air punching combinations for cardio and upper body.',
+  'Stand in boxing stance. Throw jab-cross-hook combos at a steady pace.',
+  'cardio', 'beginner', 3, '60 sec', 60, false,
+  ARRAY['cardio', 'upper-body', 'fun'],
+  'https://www.youtube.com/watch?v=ar-PEnmsLTk',6.0
+);
