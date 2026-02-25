@@ -9,6 +9,8 @@ import usePerformance from "./src/routes/performance.route.js";
 import useRemainder from "./src/routes/remainder.route.js";
 import { startReminderCron } from './src/cron/remainderCron.js';
 import useNutrition from './src/routes/nutrition.route.js';
+import useAdapt from './src/routes/adaptiveIntensity.route.js';
+
 const app = express();
 app.use(express.json());
 app.use(cors())
@@ -21,6 +23,8 @@ app.use("/api/workout", useWorkout);
 app.use('/performance',usePerformance);
 app.use("/api",useRemainder);
 app.use('/api',useNutrition);
+app.use('/api',useAdapt);
+
 
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
