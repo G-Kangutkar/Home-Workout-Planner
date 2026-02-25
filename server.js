@@ -10,6 +10,7 @@ import useRemainder from "./src/routes/remainder.route.js";
 import { startReminderCron } from './src/cron/remainderCron.js';
 import useNutrition from './src/routes/nutrition.route.js';
 import useAdapt from './src/routes/adaptiveIntensity.route.js';
+import useRecovery from "./src/routes/recover.route.js";
 
 const app = express();
 app.use(express.json());
@@ -24,6 +25,7 @@ app.use('/performance',usePerformance);
 app.use("/api",useRemainder);
 app.use('/api',useNutrition);
 app.use('/api',useAdapt);
+app.use("/api", useRecovery);
 
 
 app.listen(PORT,()=>{

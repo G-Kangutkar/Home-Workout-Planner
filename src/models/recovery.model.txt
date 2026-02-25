@@ -1,0 +1,14 @@
+create table if not exists recovery_guides (
+  id          uuid primary key default gen_random_uuid(),
+  goal        text not null,        -- 'weight_loss' | 'flexibility' | 'general_fitness' | 'muscle_gain'
+  section     text not null,        -- 'post_workout' | 'sleep' | 'stretching'
+  title       text not null,
+  description text not null,
+  duration    text not null,
+  sort_order  int  not null default 0,
+  created_at  timestamptz default now()
+);
+
+-- Index for fast goal+section lookups
+create index if not exists idx_recovery_guides_goal_section
+  on recovery_guides (goal, section);

@@ -1,0 +1,115 @@
+-- ============================================================
+-- recovery_guides table
+-- Each row = one tip belonging to a goal, section, and index
+-- ============================================================
+
+create table if not exists recovery_guides (
+  id          uuid primary key default gen_random_uuid(),
+  goal        text not null,        -- 'weight_loss' | 'flexibility' | 'general_fitness' | 'muscle_gain'
+  section     text not null,        -- 'post_workout' | 'sleep' | 'stretching'
+  title       text not null,
+  description text not null,
+  duration    text not null,
+  sort_order  int  not null default 0,
+  created_at  timestamptz default now()
+);
+
+-- Index for fast goal+section lookups
+create index if not exists idx_recovery_guides_goal_section
+  on recovery_guides (goal, section);
+
+-- ============================================================
+-- Seed data — Weight Loss
+-- ============================================================
+
+insert into recovery_guides (goal, section, title, description, duration, sort_order) values
+
+-- post_workout
+('weight_loss','post_workout','Eat within 45 minutes','Have a small meal with 20–30g of protein (like 2 eggs + toast, or chicken with rice) and some carbs soon after your workout. This stops your body from breaking down muscle and refills your energy without undoing your calorie burn.','45 min window',1),
+('weight_loss','post_workout','Take a cold shower','A 10-minute cold shower after your workout brings down swelling in your muscles and helps you recover faster so you can train again sooner. It also gives you an energy boost.','10 min',2),
+('weight_loss','post_workout','Go for a short walk','A 15–20 minute easy walk after your workout keeps your body in fat-burning mode a little longer and helps flush out the lactic acid that causes soreness. Keep it relaxed — no need to push hard.','15–20 min',3),
+('weight_loss','post_workout','Drink water with electrolytes','You lose sodium, potassium, and magnesium when you sweat. Plain water won''t replace those. Add a pinch of salt + a banana, or use an electrolyte tablet (like Nuun or Hydralyte) to rehydrate properly. Dehydration slows fat burning.','All day',4),
+
+-- sleep
+('weight_loss','sleep','Get 7–8 hours of sleep','When you sleep less than 7 hours, your body produces more cortisol (stress hormone) which causes your body to store fat — especially around your belly. Good sleep is one of the most underrated weight loss tools.','7–8 hrs',1),
+('weight_loss','sleep','Stop eating 2 hours before bed','Eating late at night disrupts your body''s natural overnight fat-burning process. Try to have your last meal by 8–9pm. If you''re hungry, a small snack like Greek yogurt or a handful of nuts is fine.','2 hr cutoff',2),
+('weight_loss','sleep','Sleep in a cool room','Keep your bedroom around 18–20°C (65–68°F). Sleeping in a cooler room activates your body''s calorie-burning fat cells and also helps you fall asleep faster and stay asleep longer.','Nightly',3),
+('weight_loss','sleep','Get sunlight in the morning','Step outside for 10 minutes within 30 minutes of waking up. Morning sunlight helps reset your body clock, lowers cortisol naturally, and improves sleep quality that night — which all support better fat loss.','10 min',4),
+
+-- stretching (clear, step-by-step wording)
+('weight_loss','stretching','Standing quad stretch','Stand on one leg and pull your other foot up towards your backside. Hold for 30 seconds, then switch legs. This loosens the front of your thighs, which get tight after running or HIIT, and helps prevent knee pain. Use a wall for balance if needed.','30 sec each leg',1),
+('weight_loss','stretching','Kneeling hip flexor stretch','Kneel on your right knee with your left foot flat on the floor in front of you (like a proposal position). Gently push your hips forward until you feel a stretch at the front of your right hip. Hold 45 seconds, then switch sides. This undoes the tightness from sitting and cardio workouts.','45 sec each side',2),
+('weight_loss','stretching','Seated hamstring stretch','Sit on the floor with both legs straight out in front of you. Reach your hands towards your feet as far as you can comfortably go. Hold for 30 seconds. You should feel a pull along the back of your thighs. This prevents lower back pain after running or cycling.','30 sec x2',3),
+('weight_loss','stretching','Child''s pose','Kneel on the floor, sit your hips back towards your heels, and reach your arms forward on the floor with your forehead resting down. Hold for 60–90 seconds and breathe slowly. This gently stretches your lower back, hips, and shoulders — and signals to your body it''s time to relax and recover.','60–90 sec',4);
+
+-- ============================================================
+-- Seed data — Flexibility
+-- ============================================================
+
+insert into recovery_guides (goal, section, title, description, duration, sort_order) values
+
+-- post_workout
+('flexibility','post_workout','Contract-relax stretching (PNF)','While your muscles are still warm after your session, try this: stretch a muscle to its limit, then gently tense that same muscle for 6 seconds, then relax and stretch a little further. Repeat 2–3 times per muscle. This technique gets you deeper flexibility gains than regular stretching alone.','15–20 min',1),
+('flexibility','post_workout','Foam roll before stretching','Before you do any stretches, spend 60–90 seconds slowly rolling over each major muscle group (thighs, calves, upper back, glutes). When you find a sore spot, pause and hold. This loosens tight muscle tissue so your stretches work more effectively.','10 min',2),
+('flexibility','post_workout','Eat anti-inflammatory foods','After flexibility training, inflammation in your joints and connective tissue can limit how much you can progress. Foods and supplements that help: turmeric (in food or capsule form), ginger tea, tart cherry juice, and omega-3s (found in salmon, walnuts, or fish oil capsules). These reduce joint soreness and keep tissue pliable.','Post-session',3),
+('flexibility','post_workout','Contrast shower (hot then cold)','Alternate between 1 minute of hot water and 30 seconds of cold water, four times in a row. This pumps blood in and out of your muscles and connective tissue, flushing waste products and delivering nutrients to help your ligaments and tendons recover.','10 min',4),
+
+-- sleep
+('flexibility','sleep','Sleep on your back','Sleeping on your side or stomach can cause your hips and shoulders to rotate inward overnight, tightening the muscles you worked hard to open. Try sleeping flat on your back with a pillow under your knees to keep your spine neutral and your hips relaxed.','Nightly',1),
+('flexibility','sleep','Take magnesium before bed','Magnesium helps your muscles physically relax while you sleep, not just mentally wind down. Take 300–400mg of magnesium glycinate (the gentlest form for your stomach) about 1 hour before bed. You can find it at any pharmacy or health store — brands like Swisse, Blackmores, or Now Foods are reliable. Avoid magnesium oxide, which is poorly absorbed.','Nightly',2),
+('flexibility','sleep','Do light stretches before bed','Spend 10 minutes doing slow, held stretches before you sleep: try lying pigeon pose (on your back, cross one ankle over the opposite knee), reclined spinal twist (both knees to one side), and butterfly (soles of feet together, let knees fall open). These target deep tissue that only responds to long, relaxed holds.','10 min',3),
+('flexibility','sleep','Aim for a consistent 10pm bedtime','Your body releases the most growth hormone — which repairs connective tissue and ligaments — in the first 90 minutes of sleep, and especially before midnight. Going to bed at the same time each night (even on weekends) maximises this repair window.','10 pm target',4),
+
+-- stretching (clear, step-by-step wording)
+('flexibility','stretching','Pigeon pose (hip opener)','Start on all fours. Bring your right knee forward and place it behind your right wrist, with your right foot angled towards your left hip. Slide your left leg straight back. Lower your hips towards the floor — use a folded towel under your hip if it doesn''t reach. Hold 90 seconds, then switch sides. You''ll feel a deep stretch in your outer hip and glute.','90 sec each side',1),
+('flexibility','stretching','Doorway chest stretch','Stand in a doorway and place both forearms against the door frame (elbows at shoulder height, like a goalpost shape). Step one foot forward and gently lean through the doorway until you feel a stretch across your chest and the fronts of your shoulders. Hold 45 seconds. Repeat 3 times. This opens up tight chest muscles that restrict shoulder and upper body movement.','45 sec x3',2),
+('flexibility','stretching','Seated spinal twist','Sit on the floor with both legs straight. Bend your right knee and place your right foot flat on the floor outside your left thigh. Place your left elbow on the outside of your right knee and gently rotate your torso to the right, looking over your right shoulder. Hold 60 seconds, then switch sides. This improves rotation in your mid and lower back.','60 sec each side',3),
+('flexibility','stretching','Standing forward fold','Stand with your feet hip-width apart. Slightly bend your knees so they''re not locked. Slowly hinge at your hips and let your upper body hang down towards the floor. Let your arms and head be completely heavy. Hold for 2 minutes, breathing slowly. This gently stretches the entire back of your body — hamstrings, calves, and spine.','2 min',4);
+
+-- ============================================================
+-- Seed data — General Fitness
+-- ============================================================
+
+insert into recovery_guides (goal, section, title, description, duration, sort_order) values
+
+-- post_workout
+('general_fitness','post_workout','Eat a recovery meal within an hour','Aim for a meal with around 30g of protein and 40–60g of carbs within an hour of finishing. Good options: rice + chicken, a protein shake + banana, or eggs on wholegrain toast. The protein rebuilds muscle and the carbs refill your energy stores.','1 hr window',1),
+('general_fitness','post_workout','Do a proper cool-down','Don''t just stop exercising and sit down. Spend 5–10 minutes doing light movement — a slow walk, easy cycling, or gentle movements. This gradually brings your heart rate down and stops blood from pooling in your legs, which causes that heavy, achy feeling afterwards.','5–10 min',2),
+('general_fitness','post_workout','Drink 500ml of water immediately','Drink at least half a litre of water as soon as you finish your workout. Even being 2% dehydrated noticeably reduces how well you perform in your next session and slows down your recovery.','Immediate',3),
+('general_fitness','post_workout','Stay active on rest days','On days you don''t train, do something light — a 30-minute walk, a swim, or a yoga session. Light movement on rest days improves blood flow to sore muscles and actually helps you recover faster than doing nothing at all.','30–45 min',4),
+
+-- sleep
+('general_fitness','sleep','Sleep 7–9 hours every night','Almost every recovery process in your body — muscle repair, hormone balance, energy restoration — happens during sleep. Most adults need 7–9 hours. Consistently getting less than 7 hours will make your workouts harder and your progress slower, no matter how well you train or eat.','7–9 hrs',1),
+('general_fitness','sleep','Put your phone away 1 hour before bed','The blue light from screens tricks your brain into thinking it''s still daytime and delays the release of melatonin (your sleep hormone). Switch to dim, warm lighting an hour before bed. Even this one change will noticeably improve how deeply you sleep within a few days.','1 hr before',2),
+('general_fitness','sleep','Wake up at the same time every day','Your body has an internal clock. The more consistently you wake up at the same time — even on weekends — the better your sleep quality becomes. Your body learns when to release cortisol to wake you up and when to release melatonin to wind you down.','Daily',3),
+('general_fitness','sleep','Track your sleep quality','Use a free app like Sleep Cycle or a wearable (Fitbit, Garmin, Apple Watch) to see how much deep sleep you''re getting. If it''s regularly below 15% of your total sleep, check: are you drinking alcohol within 3 hours of bed? Having caffeine after 2pm? Sleeping in a room warmer than 20°C? These are the most common culprits.','Ongoing',4),
+
+-- stretching (clear, step-by-step wording)
+('general_fitness','stretching','10-minute full-body stretch routine','After any workout, go through this sequence and hold each stretch for 30 seconds: 1) Standing quad stretch (pull foot to backside) 2) Standing hamstring stretch (hinge forward, soft knees) 3) Kneeling hip flexor stretch 4) Chest doorway stretch 5) Overhead tricep stretch (elbow behind head) 6) Cross-body shoulder stretch. Do this daily — consistency matters more than duration.','10 min daily',1),
+('general_fitness','stretching','Cat-cow back mobility','Get on all fours with your hands under your shoulders and knees under your hips. Slowly arch your back upward (like a scared cat) and hold 2 seconds, then let your belly drop towards the floor and lift your head (like a cow). Move slowly and repeat 10 times. Do this every morning to reduce back stiffness and keep your spine healthy.','3 min x2',2),
+('general_fitness','stretching','90/90 hip stretch','Sit on the floor and arrange both legs into 90-degree angles — one knee pointing forward, one pointing to the side (like two right angles). Sit up tall and hold for 60 seconds on each side. This stretches both the inside and outside of your hips at once, which is usually the stiffest area for most people who sit at a desk.','60 sec each side',3),
+('general_fitness','stretching','Doorway shoulder stretch','Stand in a doorway, raise one arm and place your palm flat against the door frame. Gently rotate your body away from that arm until you feel a stretch across the front of your shoulder. Hold 30 seconds. Repeat at three different arm heights — low (hip level), mid (shoulder level), high (above head) — to stretch different parts of the shoulder.','90 sec total',4);
+
+-- ============================================================
+-- Seed data — Muscle Gain
+-- ============================================================
+
+insert into recovery_guides (goal, section, title, description, duration, sort_order) values
+
+-- post_workout
+('muscle_gain','post_workout','40g of protein within 30 minutes','Your muscles are primed to absorb protein immediately after training. Get 40g of fast-digesting protein as quickly as you can — a whey shake is the easiest option (most brands provide ~25g per scoop, so use a larger scoop or add a scoop to some milk). Whole food options: 150g chicken breast, 5–6 egg whites, or 200g Greek yogurt. This is the most important recovery habit for muscle growth.','30 min window',1),
+('muscle_gain','post_workout','Take 5g of creatine','Creatine is the most well-researched muscle supplement available. Take 5g of creatine monohydrate (plain powder is fine — brands like Optimum Nutrition or MyProtein are reliable and affordable) after your workout. It refills the energy stores in your muscle cells and helps them recover and grow faster. You can mix it into your protein shake.','Daily',2),
+('muscle_gain','post_workout','Skip hard cardio right after lifting','Don''t do a long run or intense cardio session immediately after weight training. It activates a pathway in your body (AMPK) that blocks the muscle-building signal (mTOR). If you want to do cardio, do it on a separate day or at least a few hours apart from your lifting session.','Post-lift rule',3),
+('muscle_gain','post_workout','Ice for legs, warmth for upper body','After a heavy leg session (squats, deadlifts), apply an ice pack wrapped in a cloth to your thighs and knees for 15 minutes to reduce swelling and speed recovery. After upper body sessions, use a warm heat pack or warm shower on your shoulders and back — heat increases blood flow to these joints and helps them recover faster.','15 min',4),
+
+-- sleep
+('muscle_gain','sleep','Sleep 8–10 hours','Muscle is not built in the gym — it''s built while you sleep. Your body releases growth hormone almost exclusively during deep sleep, and the more deep sleep you get, the more muscle repair and growth happens. If you''re serious about gaining muscle, 8 hours is the minimum. 9–10 hours is ideal, especially after heavy sessions.','8–10 hrs',1),
+('muscle_gain','sleep','Eat cottage cheese or Greek yogurt before bed','Have 30–40g of casein protein before you sleep. Casein digests slowly over 6–7 hours, providing your muscles with a steady supply of amino acids all night. The easiest sources: 200g of low-fat cottage cheese, 200g of Greek yogurt, or a casein protein shake (brands like Optimum Nutrition Gold Standard Casein or Bulk Powders Micellar Casein are popular). This one habit alone can meaningfully increase muscle growth over time.','Before bed',2),
+('muscle_gain','sleep','Take ZMA (zinc + magnesium) before bed','ZMA is a combination of zinc, magnesium aspartate, and vitamin B6. Studies in resistance-trained athletes show it improves testosterone levels, sleep quality, and recovery speed. You lose both zinc and magnesium through sweat during intense training, so supplementing them matters. Take it 30–60 minutes before bed on an empty stomach. Where to get it: ZMA capsules are available at GNC, Holland & Barrett, Amazon, or any supplement store. Brands like Now Foods ZMA or Optimum Nutrition ZMA are affordable and reliable. Do not take it with dairy (calcium blocks zinc absorption).','Nightly',3),
+('muscle_gain','sleep','Elevate your legs after leg day','After a heavy lower body session, prop your legs up on 1–2 pillows while you sleep. This uses gravity to help fluid drain away from your legs, reduces overnight swelling, and noticeably decreases how sore your legs feel the next morning. Simple and free — no equipment needed.','Leg day nights',4),
+
+-- stretching (clear, step-by-step wording)
+('muscle_gain','stretching','Light stretch immediately after lifting','Right after your workout, do gentle stretches — hold each one for only 20–30 seconds and don''t push to your maximum. Suggested areas: chest (doorway stretch), quads (standing pull), and shoulders (cross-body stretch). Keep it brief. Very intense stretching right after lifting can interfere with muscle growth signals, so stay relaxed and light here.','5 min post-lift',1),
+('muscle_gain','stretching','Full mobility session on rest days','On days you don''t lift, set aside 20–30 minutes for a proper stretching session. This is the right time for deeper work. Focus on: hip flexor lunge stretch (3 min each side), pigeon pose for your glutes (90 sec each), lat stretch with a doorframe (pull arm overhead and lean away, 45 sec each side), and a thoracic rotation stretch (sit crossed-legged, rotate your upper body side to side slowly, 2 min). Tight muscles limit your range of motion in lifts, which limits how much muscle you can build.','20–30 min',2),
+('muscle_gain','stretching','Lat and chest doorway stretch','For your lats: stand sideways in a doorway, grab the frame overhead with one hand, and gently lean your body away until you feel a stretch down the side of your back. Hold 45 seconds each side. For your chest: place both forearms on the door frame at shoulder height and step forward until you feel your chest opening up. Hold 45 seconds. Tight lats and chest muscles are the main cause of shoulder problems in weightlifters.','45 sec x3',3),
+('muscle_gain','stretching','Couch stretch for hip flexors','Kneel facing away from a couch or wall. Place the top of one foot up on the couch behind you (like a kneeling position but with your back foot raised). Keep your torso upright and gently push your hips forward until you feel a deep stretch at the very front of your hip. Hold 2 minutes each side. Heavy squats and deadlifts chronically tighten the hip flexors, which tilts your pelvis and strains your lower back over time.','2 min each side',4);
