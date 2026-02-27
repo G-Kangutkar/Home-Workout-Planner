@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 // Public — no auth needed (Google redirects here)
-router.get("/calendar/callback", authenticate, handleCallback);
+router.get("/calendar/callback",  handleCallback);
 
 // Protected
 router.get("/calendar/auth-url",      authenticate, getAuthUrl);
