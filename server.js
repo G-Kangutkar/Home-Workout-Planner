@@ -11,6 +11,7 @@ import { startReminderCron } from './src/cron/remainderCron.js';
 import useNutrition from './src/routes/nutrition.route.js';
 import useAdapt from './src/routes/adaptiveIntensity.route.js';
 import useRecovery from "./src/routes/recover.route.js";
+import calendarRoutes from "./src/routes/calendar.route.js";
 
 const app = express();
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use("/api",useRemainder);
 app.use('/api',useNutrition);
 app.use('/api',useAdapt);
 app.use("/api", useRecovery);
+app.use("/api", calendarRoutes);
 
 
 app.listen(PORT,()=>{
