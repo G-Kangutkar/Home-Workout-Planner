@@ -27,6 +27,7 @@ function buildDateTime(dayOffset, timeStr) {
 // ── GET /api/calendar/auth-url ────────────────────────────────────────────────
 // Returns Google OAuth URL — frontend opens this in a popup/redirect
 export const getAuthUrl = (req, res) => {
+    console.log("getAuthUrl user:", req.user);
     console.log("CLIENT_ID:", process.env.GOOGLE_CLIENT_ID);
   const oauth2Client = getOAuthClient();
   const url = oauth2Client.generateAuthUrl({
