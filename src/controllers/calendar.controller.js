@@ -45,7 +45,7 @@ export const getAuthUrl = (req, res) => {
 // ── GET /api/calendar/callback ────────────────────────────────────────────────
 // Google redirects here with ?code=... after user approves
 export const handleCallback = async (req, res) => {
-  const { code } = req.query;
+  const { code,state } = req.query;
   const userId   = state;
 
   if (!code) return res.status(400).json({ error: "Missing code" });
