@@ -63,6 +63,10 @@ SUPABASE_URL=your_supabase_url
 SUPABASE_KEY=your_supabase_anon_key
 JWT_SECRET=your_jwt_secret_key
 FIREBASE_SERVICE_ACCOUNT=your_firebase_config_json
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=https://your-backend.onrender.com/api/calendar/callback
+FRONTEND_URL=https://your-app.netlify.app
 ```
 
 ### 4. Start the Development Server
@@ -166,6 +170,17 @@ npm run dev
 | `POST` | `/api/adapt-intensity` | Adapt workout intensity | 🔒 Protected |
 
 ---
+### Calendar Routes — `/api/calendar`
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/api/calendar/auth-url` | Returns Google OAuth URL to initiate connection | 🔒 Protected |
+| GET | `/api/calendar/callback` | OAuth callback — saves tokens and redirects to frontend | 🔒 Protected |
+| POST | `/api/calendar/sync` | Creates Google Calendar events for full week plan + meals | 🔒 Protected |
+| GET | `/api/calendar/status` | Returns connection status and time preferences | 🔒 Protected |
+| PUT | `/api/calendar/preferences` | Update preferred workout and meal prep times | 🔒 Protected |
+| DELETE | `/api/calendar/disconnect` | Revokes calendar access and clears tokens | 🔒 Protected |
+---
 
 ## 💡 Example Requests
 
@@ -234,6 +249,11 @@ CREATE TABLE IF NOT EXISTS profile (
   activity_level   activity_level_enum DEFAULT 'beginner',
   workout_duration INT NOT NULL,
   fcm_token        TEXT,
+  preferred_workout_time  time    DEFAULT '07:00:00',
+    preferred_meal_time     time    DEFAULT '08:00:00',
+   google_access_token     text,
+   google_refresh_token    text,
+   calendar_sync_enabled   boolean DEFAULT false;
   created_at       TIMESTAMPTZ DEFAULT now(),
   updated_at       TIMESTAMPTZ DEFAULT now()
 );

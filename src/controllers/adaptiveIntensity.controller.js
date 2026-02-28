@@ -5,6 +5,7 @@ const STREAK_REQUIRED = 2;
 
 const formatReps = (repsStr, increaseBy) => {
   if (!repsStr) return repsStr;
+  if (repsStr.toLowerCase().startsWith("count")) return repsStr;
   if (repsStr.includes("-")) {
     const [min, max] = repsStr.split("-").map((n) => parseInt(n.trim()));
     return `${min + increaseBy}-${max + increaseBy}`;
@@ -94,7 +95,7 @@ export const adaptIntensity = async (req, res) => {
     //  Check if intensity was already adapted today for this day
     // Prevents infinite increases every time user logs on a streak day
     const { data: alreadyAdapted } = await supabase
-      .from("plan_day_exercise")
+      .from("plan_day_exercises")
       .select("last_adapted")
       .eq("day_id", dayId)
       .limit(1)
@@ -114,7 +115,7 @@ export const adaptIntensity = async (req, res) => {
 
     // Streak confirmed — get all exercises for this plan day
     const { data: planExercises, error: planErr } = await supabase
-      .from("plan_day_exercise")
+      .from("plan_day_exercises")
       .select("id, exercise_id, sets, reps")
       .eq("day_id", dayId);
 
@@ -128,7 +129,7 @@ export const adaptIntensity = async (req, res) => {
       const newSets = planEx.sets + 1;
 
       const { error: updateErr } = await supabase
-        .from("plan_day_exercise")
+        .from("plan_day_exercises")
         .update({
           reps:         newReps,
           sets:         newSets,
