@@ -66,7 +66,7 @@ FIREBASE_SERVICE_ACCOUNT=your_firebase_config_json
 GOOGLE_CLIENT_ID=your_client_id
 GOOGLE_CLIENT_SECRET=your_client_secret
 GOOGLE_REDIRECT_URI=https://your-backend.onrender.com/api/calendar/callback
-FRONTEND_URL=https://your-app.netlify.app
+FRONTEND_URL=https://home-workout-planner.vercel.app
 ```
 
 ### 4. Start the Development Server
