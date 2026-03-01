@@ -20,7 +20,7 @@ export function startReminderCron() {
         .select("id, user_id, remind_time")
         .eq("is_active", true)
         .eq("sent_today", false)
-        .eq("remind_time", `${currentTime}:00`);   // "07:30" matches "07:30:00"
+        // .eq("remind_time", `${currentTime}:00`);   // "07:30" matches "07:30:00"
 
       if (error) {
         console.error("Cron query error:", error.message);
